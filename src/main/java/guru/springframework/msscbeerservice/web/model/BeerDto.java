@@ -40,8 +40,8 @@ public class BeerDto {
 	
 	@NotBlank
 	private String beerName;
-	
 
+	@NotNull
 	private BeerStyleEnum beerStyle;
 	
 	@NotNull

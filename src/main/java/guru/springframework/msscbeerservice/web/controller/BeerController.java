@@ -2,6 +2,7 @@ package guru.springframework.msscbeerservice.web.controller;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +23,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BeerController {
 
+	@Autowired
 	private final BeerService beerService;
 	
 	@GetMapping("/{beerId}")
@@ -31,14 +33,14 @@ public class BeerController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<BeerDto> saveNewBeer(@Validated @RequestBody BeerDto newBeer) {
+	public ResponseEntity<BeerDto> saveNewBeer(@Validated @RequestBody BeerDto beerDto) {
 		
-		return new ResponseEntity<BeerDto>(beerService.saveNewBeer(newBeer), HttpStatus.CREATED);
+		return new ResponseEntity<BeerDto>(beerService.saveNewBeer(beerDto), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{beerId}")
-	public ResponseEntity<BeerDto> updateBeerById(@PathVariable("beerId") UUID beerId, @Validated @RequestBody BeerDto newBeer ) {
+	public ResponseEntity<BeerDto> updateBeerById(@PathVariable("beerId") UUID beerId, @Validated @RequestBody BeerDto beerDto ) {
 		
-		return new ResponseEntity<BeerDto>(beerService.updateBeer(beerId, newBeer), HttpStatus.NO_CONTENT);
+		return new ResponseEntity<BeerDto>(beerService.updateBeer(beerId, beerDto), HttpStatus.NO_CONTENT);
 	}
 }

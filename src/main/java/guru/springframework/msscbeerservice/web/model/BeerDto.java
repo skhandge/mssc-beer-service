@@ -4,13 +4,14 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,12 +41,11 @@ public class BeerDto {
 	@NotBlank
 	private String beerName;
 	
-	@NotBlank
+
 	private BeerStyleEnum beerStyle;
 	
 	@NotNull
-	@Positive
-	private Long upc;
+	private String upc;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@NotNull

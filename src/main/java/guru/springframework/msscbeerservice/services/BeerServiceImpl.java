@@ -2,15 +2,17 @@ package guru.springframework.msscbeerservice.services;
 
 import java.util.UUID;
 
+import guru.springframework.msscbeerservice.domain.Beer;
+import guru.springframework.msscbeerservice.web.controller.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import guru.springframework.msscbeerservice.repositories.BeerRepository;
 import guru.springframework.msscbeerservice.web.mappers.BeerMapper;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
-import lombok.AllArgsConstructor;
 
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class BeerServiceImpl implements BeerService{
 
@@ -19,20 +21,25 @@ public class BeerServiceImpl implements BeerService{
 	
 	@Override
 	public BeerDto getById(UUID beerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return beerMapper.beerToBeerDto(
+				beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
+		);
 	}
 
 	@Override
-	public BeerDto saveNewBeer(BeerDto newBeer) {
-		// TODO Auto-generated method stub
-		return null;
+	public BeerDto saveNewBeer(BeerDto beerDto) {
+		return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
 	}
 
 	@Override
-	public BeerDto updateBeer(UUID beerId, BeerDto newBeer) {
-		// TODO Auto-generated method stub
-		return null;
+	public BeerDto updateBeer(UUID beerId, BeerDto beerDto) {
+		Beer beer = beerRepository.findById(beerId).orElseThrow(NotFoundException::new);
+		beer.setBeerName(beerDto.getBeerName());
+		beer.setBeerStyle(beerDto.getBeerStyle().name());
+		beer.setPrice(beerDto.getPrice());
+		beer.setUpc(beerDto.getUpc());
+
+		return beerMapper.beerToBeerDto(beerRepository.save(beer));
 	}
 
 }

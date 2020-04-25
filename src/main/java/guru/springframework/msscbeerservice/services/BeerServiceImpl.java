@@ -8,6 +8,7 @@ import guru.springframework.msscbeerservice.web.controller.NotFoundException;
 import guru.springframework.msscbeerservice.web.model.BeerPagedList;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,10 @@ public class BeerServiceImpl implements BeerService{
 	private final BeerMapper beerMapper;
 	
 	@Override
+	@Cacheable(cacheNames = "beerCache", key = "#beerId", condition = "#showInventoryOnHand == false ")
 	public BeerDto getById(UUID beerId, Boolean showInventoryOnHand) {
+		System.out.println(" Called Beerby id ");
+
 		if(showInventoryOnHand){
 			return beerMapper.beerToBeerDtoWithInventory(
 					beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
@@ -55,10 +59,11 @@ public class BeerServiceImpl implements BeerService{
 	}
 
 	@Override
+	@Cacheable(cacheNames = "beerListCache", condition = "#showInventoryOnHand == false ")
 	public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand) {
 		BeerPagedList beerPagedList;
 		Page<Beer> beerPage;
-
+		System.out.println(" Called beerlist ");
 		if (!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
 			//search both
 			beerPage = beerRepository.findAllByBeerNameAndBeerStyle(beerName, beerStyle, pageRequest);
@@ -97,5 +102,18 @@ public class BeerServiceImpl implements BeerService{
 
 		return beerPagedList;
 	}
+
+	@Override
+	@Cacheable(cacheNames = "beerUpcCache", condition = "#showInventoryOnHand == false ")
+	public BeerDto getByUpc(String upc, Boolean showInventoryOnHand) {
+		System.out.println(" Called Beer by upc ");
+
+		if(showInventoryOnHand){
+			return beerMapper.beerToBeerDtoWithInventory(
+					beerRepository.findByUpc(upc));
+		}else{
+			return beerMapper.beerToBeerDto(
+					beerRepository.findByUpc(upc));
+		}	}
 
 }

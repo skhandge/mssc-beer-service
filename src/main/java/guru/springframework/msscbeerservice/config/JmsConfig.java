@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 
 @Configuration
 public class JmsConfig {
+
+    public final static String BREWING_REQUEST_QUEUE = "brewing-request";
+
     @Bean
     public MessageConverter messageConverter(){
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

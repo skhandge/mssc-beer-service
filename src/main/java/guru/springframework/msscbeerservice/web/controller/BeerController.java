@@ -2,9 +2,8 @@ package guru.springframework.msscbeerservice.web.controller;
 
 import java.util.UUID;
 
-import guru.springframework.msscbeerservice.web.model.BeerPagedList;
-import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
-import org.springframework.beans.factory.annotation.Autowired;
+import guru.sfg.brewery.model.BeerPagedList;
+import guru.sfg.brewery.model.BeerStyleEnum;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import guru.springframework.msscbeerservice.services.BeerService;
-import guru.springframework.msscbeerservice.web.model.BeerDto;
+import guru.sfg.brewery.model.BeerDto;
 import lombok.AllArgsConstructor;
-
-import static org.springframework.beans.support.PagedListHolder.DEFAULT_PAGE_SIZE;
 
 @RequestMapping("/api/v1/")
 @RestController

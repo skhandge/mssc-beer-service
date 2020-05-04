@@ -8,9 +8,9 @@
 		<version>1.0.11</version>
 	</parent>
 
-	<artifactId>mssc.beer.service</artifactId>
+	<artifactId>mssc-beer-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mssc.beer.service</name>
+	<name>mssc-beer-service</name>
 	<description>MSSC Beer Service</description>
 
 	<properties>
